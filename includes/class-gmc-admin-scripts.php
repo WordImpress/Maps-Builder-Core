@@ -60,6 +60,12 @@ class Google_Maps_Builder_Core_Admin_Scripts extends Google_Maps_Builder_Core_Sc
 			wp_register_style( 'google-maps-builder-map-icons', GMB_CORE_URL . 'includes/libraries/map-icons/css/map-icons.css', array(), GMB_VERSION );
 			wp_enqueue_style( 'google-maps-builder-map-icons' );
 
+			wp_register_style( 'google-maps-builder-plugin-styles', GMB_CORE_URL . 'assets/css/google-maps-builder.css', array(), GMB_VERSION );
+			wp_enqueue_style( 'google-maps-builder-plugin-styles' );
+
+			wp_register_style( 'google-maps-builder-map-icons', GMB_CORE_URL . 'includes/libraries/map-icons/css/map-icons.css', array(), GMB_VERSION );
+			wp_enqueue_style( 'google-maps-builder-map-icons' );
+
 		}
 
 	}
@@ -74,7 +80,7 @@ class Google_Maps_Builder_Core_Admin_Scripts extends Google_Maps_Builder_Core_Sc
 	 * @return    null    Return early if no settings page is registered.
 	 */
 	function enqueue_admin_scripts( $hook ) {
-		global $post;
+		global $post, $current_screen, $pagenow;
 		$suffix     = $this->paths->suffix();
 		$js_dir     = $this->paths->admin_js_dir();
 		$js_plugins = $this->paths->admin_js_url();
@@ -87,6 +93,9 @@ class Google_Maps_Builder_Core_Admin_Scripts extends Google_Maps_Builder_Core_Sc
 			$this->admin_scripts( $js_plugins, $suffix, $google_maps_api_url, $js_dir, $post, false );
 		}
 
+		wp_register_script( 'google-maps-builder-custom', $js_dir . 'google-maps-builder-custom.js', array( 'jquery' ), GMB_VERSION, true );
+		wp_enqueue_script( 'google-maps-builder-custom' );
+
 		//Setting Scripts
 		if ( $hook == 'google_maps_page_gmb_settings' ) {
 			wp_register_script( 'google-maps-builder-admin-settings', $js_dir . 'admin-settings' . $suffix . '.js', array( 'jquery' ), GMB_VERSION );
@@ -94,6 +103,61 @@ class Google_Maps_Builder_Core_Admin_Scripts extends Google_Maps_Builder_Core_Sc
 		}
 		wp_enqueue_style( 'dashicons' );
 
+		wp_register_script( 'google-maps-builder-admin-map-builder', $js_dir . 'admin-google-map' . $suffix . '.js', array(
+			'jquery',
+			'wp-color-picker',
+		), GMB_VERSION );
+
+		$libraries           = 'places';
+		$google_maps_api_url = $this->google_maps_url( false, $libraries );
+		wp_register_script( 'google-maps-builder-gmaps', $google_maps_api_url, array( 'jquery' ) );
+
+		if ( 'google_maps' === $current_screen->post_type && $pagenow == 'edit.php' ) {
+			$js_dir     = $this->paths->front_end_js_dir();
+			$js_plugins = $this->paths->front_end_js_url();
+
+			// Use minified libraries if SCRIPT_DEBUG is turned off.
+			$suffix = $this->paths->suffix();
+			wp_enqueue_script( 'google-maps-builder-gmaps' );
+			wp_register_script( 'google-maps-builder-infowindows', $js_plugins . 'gmb-infobubble.js', array( 'jquery' ), GMB_VERSION, true );
+			wp_enqueue_script( 'google-maps-builder-infowindows' );
+
+			wp_register_script( 'google-maps-builder-plugin-script', $js_dir . 'google-maps-builder.js', array(
+				'jquery',
+				'google-maps-builder-infowindows',
+			), GMB_VERSION, true );
+			wp_enqueue_script( 'google-maps-builder-plugin-script' );
+
+			wp_register_script( 'google-maps-builder-maps-icons', GMB_CORE_URL . 'includes/libraries/map-icons/js/map-icons.js', array( 'jquery' ), GMB_VERSION, true );
+			wp_enqueue_script( 'google-maps-builder-maps-icons' );
+
+			// Initial data to pass to the `gmb_data` front-end JS object.
+			$maps_data = apply_filters( 'gmb_frontend_data_array', array(
+					'i18n'            => array(
+						'get_directions' => __( 'Get Directions', 'google-maps-builder' ),
+						'visit_website'  => __( 'Visit Website', 'google-maps-builder' ),
+					),
+					'infobubble_args' => array(
+						'shadowStyle'         => 0,
+						'padding'             => 12,
+						'backgroundColor'     => 'rgb(255, 255, 255)',
+						'borderRadius'        => 3,
+						'arrowSize'           => 15,
+						'minHeight'           => 20,
+						'maxHeight'           => 450,
+						'minWidth'            => 200,
+						'maxWidth'            => 350,
+						'borderWidth'         => 0,
+						'disableAutoPan'      => true,
+						'disableAnimation'    => true,
+						'backgroundClassName' => 'gmb-infobubble',
+						'closeSrc'            => 'https://www.google.com/intl/en_us/mapfiles/close.gif',
+					),
+				)
+			);
+
+			wp_localize_script( 'google-maps-builder-plugin-script', 'gmb_data', $maps_data );
+		}
 
 	}
 
