@@ -52,7 +52,8 @@ class Google_Maps_Builder_Core_Admin_Scripts extends Google_Maps_Builder_Core_Sc
 		$suffix = $this->paths->suffix();
 
 		//Only enqueue scripts for CPT on post type screen
-		if ( ( $hook == 'post-new.php' || $hook == 'post.php' ) && 'google_maps' === $post->post_type || $hook == 'google_maps_page_gmb_settings' || $hook == 'google_maps_page_gmb_import_export' ) {
+		if ( ( $hook == 'post-new.php' || $hook == 'post.php'|| $hook == 'edit.php') && 'google_maps' === $post->post_type || $hook == 'google_maps_page_gmb_settings' || $hook ==
+		                                                                                                                                                                 'google_maps_page_gmb_import_export' ) {
 
 			wp_register_style( 'google-maps-builder-admin-styles', GMB_CORE_URL . 'assets/css/gmb-admin' . $suffix . '.css', array(), GMB_VERSION );
 			wp_enqueue_style( 'google-maps-builder-admin-styles' );
@@ -62,9 +63,6 @@ class Google_Maps_Builder_Core_Admin_Scripts extends Google_Maps_Builder_Core_Sc
 
 			wp_register_style( 'google-maps-builder-plugin-styles', GMB_CORE_URL . 'assets/css/google-maps-builder.css', array(), GMB_VERSION );
 			wp_enqueue_style( 'google-maps-builder-plugin-styles' );
-
-			wp_register_style( 'google-maps-builder-map-icons', GMB_CORE_URL . 'includes/libraries/map-icons/css/map-icons.css', array(), GMB_VERSION );
-			wp_enqueue_style( 'google-maps-builder-map-icons' );
 
 		}
 

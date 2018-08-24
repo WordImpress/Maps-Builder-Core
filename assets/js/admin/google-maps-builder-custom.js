@@ -15,7 +15,6 @@ jQuery( document ).ready( function( $ ) {
 			for ( var prop in response[ 'localized' ] ) {
 				gmb_data[ prop ] = response[ 'localized' ][ prop ];
 			}
-			console.log(response);
 			MapsBuilder.init();
 			var gmb_init = document.createEvent('Event');
 			gmb_init.initEvent('MapBuilderInit', true, true);
