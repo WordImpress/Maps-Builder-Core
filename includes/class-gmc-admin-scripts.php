@@ -40,6 +40,7 @@ class Google_Maps_Builder_Core_Admin_Scripts extends Google_Maps_Builder_Core_Sc
 	 * Register and enqueue admin-specific style sheet.
 	 *
 	 * Return early if no settings page is registered.
+	 *
 	 * @since     2.0
 	 *
 	 * @param $hook
@@ -50,10 +51,17 @@ class Google_Maps_Builder_Core_Admin_Scripts extends Google_Maps_Builder_Core_Sc
 
 		global $post;
 		$suffix = $this->paths->suffix();
-
 		//Only enqueue scripts for CPT on post type screen
-		if ( ( $hook == 'post-new.php' || $hook == 'post.php'|| $hook == 'edit.php') && 'google_maps' === $post->post_type || $hook == 'google_maps_page_gmb_settings' || $hook ==
-		                                                                                                                                                                 'google_maps_page_gmb_import_export' ) {
+		if (
+			( 'post-new.php' === $hook ||
+			  'post.php' === $hook ||
+			  'edit.php' === $hook )
+			&& (
+				'google_maps' === $post->post_type ||
+				'google_maps_page_gmb_settings' === $hook ||
+				'google_maps_page_gmb_import_export' === $hook
+			)
+		) {
 
 			wp_register_style( 'google-maps-builder-admin-styles', GMB_CORE_URL . 'assets/css/gmb-admin' . $suffix . '.css', array(), GMB_VERSION );
 			wp_enqueue_style( 'google-maps-builder-admin-styles' );
@@ -63,6 +71,10 @@ class Google_Maps_Builder_Core_Admin_Scripts extends Google_Maps_Builder_Core_Sc
 
 			wp_register_style( 'google-maps-builder-plugin-styles', GMB_CORE_URL . 'assets/css/google-maps-builder.css', array(), GMB_VERSION );
 			wp_enqueue_style( 'google-maps-builder-plugin-styles' );
+
+			// Hint.css file registered
+			wp_register_style( 'google-maps-builder-hint', GMB_CORE_URL . 'assets/css/hint.css', array(), GMB_VERSION );
+			wp_enqueue_style( 'google-maps-builder-hint' );
 
 		}
 
@@ -187,10 +199,6 @@ class Google_Maps_Builder_Core_Admin_Scripts extends Google_Maps_Builder_Core_Sc
 		//Maps icons
 		wp_register_script( 'google-maps-builder-map-icons', GMB_CORE_URL . 'includes/libraries/map-icons/js/map-icons.js', array( 'jquery' ) );
 		wp_enqueue_script( 'google-maps-builder-map-icons' );
-
-		//Qtip
-		wp_register_script( 'google-maps-builder-admin-qtip', $js_plugins . 'jquery.qtip' . $suffix . '.js', array( 'jquery' ), GMB_VERSION, true );
-		wp_enqueue_script( 'google-maps-builder-admin-qtip' );
 
 		//Map base
 		wp_register_script( 'google-maps-builder-admin-map-builder', $js_dir . 'admin-google-map' . $suffix . '.js', array(
