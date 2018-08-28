@@ -7,7 +7,7 @@ jQuery( document ).ready( function( $ ) {
 		e.preventDefault();
 		var map_id = $( this ).attr( 'data-id' );
 		var data = {
-			'action': 'prview_map_action',
+			'action': 'preview_map_action',
 			'map_id': map_id
 		};
 		jQuery.post( ajaxurl, data, function( response ) {
