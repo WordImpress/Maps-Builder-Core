@@ -6,9 +6,9 @@
  *
  * @category  WordPress_Plugin
  * @package   CMB2
- * @author    CMB2 team
+ * @author    WebDevStudios
  * @license   GPL-2.0+
- * @link      https://cmb2.io
+ * @link      http://webdevstudios.com
  */
 class CMB2_Type_Radio extends CMB2_Type_Multi_Base {
 
@@ -37,7 +37,7 @@ class CMB2_Type_Radio extends CMB2_Type_Multi_Base {
 			'class'   => 'cmb2-radio-list cmb2-list',
 			'options' => $this->concat_items( array(
 				'label'  => 'test',
-				'method' => 'list_input',
+				'method' => 'list_input'
 			) ),
 			'desc' => $this->_desc( true ),
 		) );

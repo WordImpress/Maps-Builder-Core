@@ -6,9 +6,9 @@
  *
  * @category  WordPress_Plugin
  * @package   CMB2
- * @author    CMB2 team
+ * @author    WebDevStudios
  * @license   GPL-2.0+
- * @link      https://cmb2.io
+ * @link      http://webdevstudios.com
  */
 class CMB2_Type_Multicheck extends CMB2_Type_Radio {
 
@@ -19,7 +19,7 @@ class CMB2_Type_Multicheck extends CMB2_Type_Radio {
 	 */
 	public $type = 'checkbox';
 
-	public function render( $args = array() ) {
+	public function render() {
 		$classes = false === $this->field->args( 'select_all_button' )
 			? 'cmb2-checkbox-list no-select-all cmb2-list'
 			: 'cmb2-checkbox-list cmb2-list';

@@ -6,13 +6,13 @@
  *
  * @category  WordPress_Plugin
  * @package   CMB2
- * @author    CMB2 team
+ * @author    WebDevStudios
  * @license   GPL-2.0+
- * @link      https://cmb2.io
+ * @link      http://webdevstudios.com
  */
 class CMB2_Type_Oembed extends CMB2_Type_Text {
 
-	public function render( $args = array() ) {
+	public function render() {
 		$field = $this->field;
 
 		$meta_value = trim( $field->escaped_value() );
@@ -22,9 +22,7 @@ class CMB2_Type_Oembed extends CMB2_Type_Text {
 				'url'         => $field->escaped_value(),
 				'object_id'   => $field->object_id,
 				'object_type' => $field->object_type,
-				'oembed_args' => array(
-					'width' => '640',
-				),
+				'oembed_args' => array( 'width' => '640' ),
 				'field_id'    => $this->_id(),
 			) )
 			: '';
@@ -34,8 +32,8 @@ class CMB2_Type_Oembed extends CMB2_Type_Text {
 			'data-objectid'   => $field->object_id,
 			'data-objecttype' => $field->object_type,
 		) )
-		. '<p class="cmb-spinner spinner"></p>'
-		. '<div id="' . $this->_id( '-status' ) . '" class="cmb2-media-status ui-helper-clearfix embed_wrap">' . $oembed . '</div>';
+		. '<p class="cmb-spinner spinner" style="display:none;"></p>'
+		. '<div id="'. $this->_id( '-status' ). '" class="cmb2-media-status ui-helper-clearfix embed_wrap">' . $oembed . '</div>';
 	}
 
 }

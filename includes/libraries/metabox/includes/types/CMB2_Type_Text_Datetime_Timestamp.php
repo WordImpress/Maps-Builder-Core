@@ -6,13 +6,13 @@
  *
  * @category  WordPress_Plugin
  * @package   CMB2
- * @author    CMB2 team
+ * @author    WebDevStudios
  * @license   GPL-2.0+
- * @link      https://cmb2.io
+ * @link      http://webdevstudios.com
  */
 class CMB2_Type_Text_Datetime_Timestamp extends CMB2_Type_Picker_Base {
 
-	public function render( $args = array() ) {
+	public function render() {
 		$field = $this->field;
 
 		$args = wp_parse_args( $this->args, array(

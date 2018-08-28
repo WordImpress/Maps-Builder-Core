@@ -6,36 +6,32 @@
  *
  * @category  WordPress_Plugin
  * @package   CMB2
- * @author    CMB2 team
+ * @author    WebDevStudios
  * @license   GPL-2.0+
- * @link      https://cmb2.io
+ * @link      http://webdevstudios.com
  */
 abstract class CMB2_Type_Base {
 
 	/**
 	 * The CMB2_Types object
-	 *
 	 * @var CMB2_Types
 	 */
 	public $types;
 
 	/**
 	 * Arguments for use in the render method
-	 *
 	 * @var array
 	 */
 	public $args;
 
 	/**
 	 * Rendered output (if 'rendered' argument is set to false)
-	 *
 	 * @var string
 	 */
 	protected $rendered = '';
 
 	/**
 	 * Constructor
-	 *
 	 * @since 2.2.2
 	 * @param CMB2_Types $types
 	 * @param array      $args
@@ -48,7 +44,6 @@ abstract class CMB2_Type_Base {
 
 	/**
 	 * Handles rendering this field type.
-	 *
 	 * @since  2.2.2
 	 * @return string  Rendered field type.
 	 */
@@ -56,7 +51,6 @@ abstract class CMB2_Type_Base {
 
 	/**
 	 * Stores the rendered field output.
-	 *
 	 * @since  2.2.2
 	 * @param  string|CMB2_Type_Base $rendered Rendered output.
 	 * @return string|CMB2_Type_Base           Rendered output or this object.
@@ -73,7 +67,6 @@ abstract class CMB2_Type_Base {
 
 	/**
 	 * Returns the stored rendered field output.
-	 *
 	 * @since  2.2.2
 	 * @return string Stored rendered output (if 'rendered' argument is set to false).
 	 */
@@ -83,7 +76,6 @@ abstract class CMB2_Type_Base {
 
 	/**
 	 * Handles parsing and filtering attributes while preserving any passed in via field config.
-	 *
 	 * @since  1.1.0
 	 * @param  string $element       Element for filter
 	 * @param  array  $type_defaults Type default arguments
@@ -102,7 +94,6 @@ abstract class CMB2_Type_Base {
 		/**
 		 * Filter attributes for a field type.
 		 * The dynamic portion of the hook name, $element, refers to the field type.
-		 *
 		 * @since 1.1.0
 		 * @param array  $args              The array of attribute arguments.
 		 * @param array  $type_defaults          The array of default values.
@@ -116,7 +107,6 @@ abstract class CMB2_Type_Base {
 
 	/**
 	 * Fall back to CMB2_Types methods
-	 *
 	 * @param string $field
 	 * @throws Exception Throws an exception if the field is invalid.
 	 * @return mixed
@@ -130,13 +120,12 @@ abstract class CMB2_Type_Base {
 			case 'concat_attrs':
 				return call_user_func_array( array( $this->types, $name ), $arguments );
 			default:
-				throw new Exception( sprintf( esc_html__( 'Invalid %1$s method: %2$s', 'cmb2' ), __CLASS__, $name ) );
+				throw new Exception( 'Invalid ' . __CLASS__ . ' method: ' . $name );
 		}
 	}
 
 	/**
 	 * Magic getter for our object.
-	 *
 	 * @param string $field
 	 * @throws Exception Throws an exception if the field is invalid.
 	 * @return mixed
@@ -146,7 +135,7 @@ abstract class CMB2_Type_Base {
 			case 'field':
 				return $this->types->field;
 			default:
-				throw new Exception( sprintf( esc_html__( 'Invalid %1$s property: %2$s', 'cmb2' ), __CLASS__, $field ) );
+				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );
 		}
 	}
 

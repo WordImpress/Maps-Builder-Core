@@ -6,22 +6,19 @@
  *
  * @category  WordPress_Plugin
  * @package   CMB2
- * @author    CMB2 team
+ * @author    WebDevStudios
  * @license   GPL-2.0+
- * @link      https://cmb2.io
+ * @link      http://webdevstudios.com
  */
 class CMB2_Type_Taxonomy_Select extends CMB2_Type_Taxonomy_Base {
 
 	public function render() {
-		$all_terms = $this->get_terms();
+		$names = $this->get_object_terms();
 
-		if ( ! $all_terms || is_wp_error( $all_terms ) ) {
-			return $this->no_terms_result( $all_terms, 'strong' );
-		}
-
-		$saved_term  = $this->get_object_term_or_default();
-		$option_none = $this->field->args( 'show_option_none' );
+		$saved_term  = is_wp_error( $names ) || empty( $names ) ? $this->field->get_default() : $names[key( $names )]->slug;
+		$terms       = $this->get_terms();
 		$options     = '';
+		$option_none = $this->field->args( 'show_option_none' );
 
 		if ( ! empty( $option_none ) ) {
 
@@ -54,26 +51,18 @@ class CMB2_Type_Taxonomy_Select extends CMB2_Type_Taxonomy_Base {
 			) );
 		}
 
-		$options .= $this->loop_terms( $all_terms, $saved_term );
-
-		return $this->rendered(
-			$this->types->select( array(
-				'options' => $options,
-			) )
-		);
-	}
-
-	protected function loop_terms( $all_terms, $saved_term ) {
-		$options = '';
-
-		foreach ( $all_terms as $term ) {
-			$options .= $this->select_option( array(
-				'label'   => $term->name,
-				'value'   => $term->slug,
-				'checked' => $saved_term === $term->slug,
-			) );
+		if ( ! empty( $terms ) ) {
+			foreach ( $terms as $term ) {
+				$options .= $this->select_option( array(
+					'label'   => $term->name,
+					'value'   => $term->slug,
+					'checked' => $saved_term === $term->slug,
+				) );
+			}
 		}
 
-		return $options;
+		return $this->rendered(
+			$this->types->select( array( 'options' => $options ) )
+		);
 	}
 }

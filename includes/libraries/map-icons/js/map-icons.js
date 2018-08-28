@@ -82,15 +82,10 @@ MarkerLabel.prototype.onAdd = function() {
 
 // Marker Label onRemove
 MarkerLabel.prototype.onRemove = function() {
-	var i;
-	if ( this.div.parentNode ) {
-		this.div.parentNode.removeChild( this.div );
-	} // Remove event listeners:
-	if ( this.listeners ) {
-		for ( i = 0; i < this.listeners.length; i ++ ) {
-			google.maps.event.removeListener( this.listeners[ i ] );
-		}
-	}
+     this.div.parentNode.removeChild(this.div);
+     for (var i = 0, I = this.listeners.length; i < I; ++i) {
+          google.maps.event.removeListener(this.listeners[i]);
+     }
 };
 
 // Implement draw
